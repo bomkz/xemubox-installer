@@ -10,7 +10,7 @@ import (
 )
 
 var Disks []string
-var GraphicsDrivers = []string{"All Open Source", "Nvidia Open Source DKMS (Turing+)", "Nividia DKMS (Maxwell to Lovelace)", "Nouveau"}
+var GraphicsDrivers = []string{"All open-source", "AMD / ATI (open-source)", "Nividia (open kernel module for newer GPUs, Turing+)", "Nvidia (open-source nouveau driver)", "Nvidia (proprietary)"}
 
 func main() {
 	app = tview.NewApplication()
@@ -20,6 +20,7 @@ func main() {
 	root.SetBorder(false).SetTitle("XemuBOX Installer Utility")
 
 	buildInstallForm()
+
 	runApp()
 
 }
