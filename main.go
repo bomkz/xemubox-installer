@@ -25,7 +25,6 @@ func main() {
 
 }
 
-
 func runApp() {
 	go keepAlive()
 
@@ -130,7 +129,8 @@ func buildInstallForm() {
 
 }
 func cancel() {
-	app.Stop()
+	log.Fatal("User Quit Installer")
+
 }
 
 func quitSuccess() {
