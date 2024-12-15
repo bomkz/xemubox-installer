@@ -71,7 +71,7 @@ type DeviceDiskSysConfig struct {
 
 type PartitionDeviceDiskSysConfig struct {
 	BTRFS        []string                            `json:"btrfs"`
-	DevPath      string                              `json:"dev_path,omitempty"`
+	DevPath      *string                             `json:"dev_path"`
 	Flags        []string                            `json:"flags"`
 	FsType       string                              `json:"fs_type"`
 	MountOptions []string                            `json:"mount_options"`
@@ -79,7 +79,7 @@ type PartitionDeviceDiskSysConfig struct {
 	ObjId        string                              `json:"obj_id"`
 	Size         GenericPartitionDeviceDiskSysConfig `json:"size"`
 	Start        GenericPartitionDeviceDiskSysConfig `json:"start"`
-	Status       string                              `json:"create"`
+	Status       string                              `json:"status"`
 	Type         string                              `json:"type"`
 }
 
@@ -104,7 +104,7 @@ type ProfileProfileSysConfig struct {
 }
 
 func populateConfigJson() error {
-	configfile, err := os.ReadFile("configuration_template.json")
+	configfile, err := os.ReadFile("/root/xemubox-archinstall-template/configuration_template.json")
 	if err != nil {
 		return err
 	}
@@ -119,20 +119,22 @@ func populateConfigJson() error {
 		return fmt.Errorf("Error Reading XemuBOX Configuration Template: Unexpected or no value in 'device_modifications")
 	}
 
-	ConfData.DiskConfig.DeviceModifications[0].Device = dsk
+	ConfData.DiskConfig.DeviceModifications[0].Device = "/dev/" + dsk
 
 	ConfData.ProfileConfig.GfxDriver = gfx
+	ConfData.DiskConfig.DeviceModifications[0].Partitions[0].DevPath = nil
+	ConfData.DiskConfig.DeviceModifications[0].Partitions[1].DevPath = nil
 
 	updatedConf, err := json.MarshalIndent(ConfData, "", "	")
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile("user_configuration.json", updatedConf, os.ModePerm)
+	err = os.WriteFile("/root/user_configuration.json", updatedConf, os.ModePerm)
 	if err != nil {
 		return err
 	}
 
-	credfile, err := os.ReadFile("credential_template.json")
+	credfile, err := os.ReadFile("/root/xemubox-archinstall-template/credential_template.json")
 	if err != nil {
 		return err
 	}
@@ -155,7 +157,7 @@ func populateConfigJson() error {
 		return err
 	}
 
-	err = os.WriteFile("user_credentials.json", updatedCred, os.ModePerm)
+	err = os.WriteFile("/root/user_credentials.json", updatedCred, os.ModePerm)
 	if err != nil {
 		return err
 	}
