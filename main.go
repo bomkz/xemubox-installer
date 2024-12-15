@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -22,6 +23,27 @@ func main() {
 	buildInstallForm()
 
 	runApp()
+
+	installXemuBOX()
+}
+
+func installXemuBOX() {
+	cmd1 := exec.Command("/root/xemubox-postinstall-scripts/archinstall.sh")
+
+	out, err := cmd1.Output()
+
+	if err != nil {
+		log.Fatal(fmt.Errorf(string(out) + "\n" + err.Error()))
+	}
+	fmt.Println(string(out))
+
+	cmd2 := exec.Command("/root/xemubox-postinstall-scripts/postinstall.sh")
+
+	out, err = cmd2.Output()
+
+	if err != nil {
+		log.Fatal(fmt.Errorf(string(out) + "\n" + err.Error()))
+	}
 
 }
 
