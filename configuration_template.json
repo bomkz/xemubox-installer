@@ -86,11 +86,22 @@
         "sys_enc": "UTF-8",
         "sys_lang": "en_US"
     },
-    "mirror_config": null,
+    "mirror_config": {
+    	"custom_mirrors": [
+    		{
+    			"name": "xemubox",
+    			"sign_check":"Never",
+    			"sign_option": "TrustAll",
+    			"url": "https://raw.github.com/bomkz/xemubox-repo/master/repo/$arch"	
+    		}
+    	],
+    	"mirror_regions": {}
+    },
     "network_config": {},
     "ntp": true,
     "packages": [
-        "dhcpcd"
+        "dhcpcd",
+        "xemu-git"
     ],
     "parallel downloads": 0,
     "profile_config": {

@@ -13,23 +13,94 @@ type CredConfig struct {
 
 type UserCredConfig struct {
 	Password string `json:"!password"`
+	Sudo     bool   `json:"sudo"`
+	Username string `json:"username"`
 }
 
 type SysConfig struct {
-	DiskConfig    DiskSysConfig    `json:"disk_config"`
-	ProfileConfig ProfileSysConfig `json:"profile_config"`
+	AdditionalRepositories []string         `json:"additional-repositories"`
+	ArchInstallLanguage    string           `json:"archinstall-language"`
+	AudioConfig            AudioSysConfig   `json:"audio_config"`
+	Bootloader             string           `json:"bootloader"`
+	ConfigVersion          string           `json:"config_version"`
+	DiskConfig             DiskSysConfig    `json:"disk_config"`
+	HostName               string           `json:"hostname"`
+	Kernels                []string         `json:"kernels"`
+	LocaleConfig           LocaleSysConfig  `json:"locale_config"`
+	MirrorConfig           MirrorSysConfig  `json:"mirror_config"`
+	NTP                    bool             `json:"ntp"`
+	Packages               []string         `json:"packages"`
+	ParallelDownloads      int              `json:"parallel_downloads"`
+	ProfileConfig          ProfileSysConfig `json:"profile_config"`
+	Swap                   bool             `json:"swap"`
+	TimeZone               string           `json:"timezone"`
+	UKI                    bool             `json:"uki"`
+	Version                string           `json:"version"`
+}
+
+type MirrorSysConfig struct {
+	CustomMirrors []CustomMirrorSysConfig `json:"custom_mirrors"`
+}
+
+type CustomMirrorSysConfig struct {
+	Name       string `json:"name"`
+	SignCheck  string `json:"sign_check"`
+	SignOption string `json:"sign_option"`
+	Url        string `json:"url"`
+}
+
+type LocaleSysConfig struct {
+	KbLayout string `json:"kb_layout"`
+	SysEnc   string `json:"sys_enc"`
+	SysLang  string `json:"sys_lang"`
+}
+type AudioSysConfig struct {
+	Audio string `json:"audio"`
 }
 
 type DiskSysConfig struct {
+	ConfigType          string                `json:"config_type"`
 	DeviceModifications []DeviceDiskSysConfig `json:"device_modifications"`
 }
 
 type DeviceDiskSysConfig struct {
-	Device string `json:"device"`
+	Device     string                         `json:"device"`
+	Partitions []PartitionDeviceDiskSysConfig `json:"partitions"`
+	Wipe       bool                           `json:"wipe"`
+}
+
+type PartitionDeviceDiskSysConfig struct {
+	BTRFS        []string                            `json:"btrfs"`
+	DevPath      string                              `json:"dev_path,omitempty"`
+	Flags        []string                            `json:"flags"`
+	FsType       string                              `json:"fs_type"`
+	MountOptions []string                            `json:"mount_options"`
+	MountPoint   string                              `json:"mountpoint"`
+	ObjId        string                              `json:"obj_id"`
+	Size         GenericPartitionDeviceDiskSysConfig `json:"size"`
+	Start        GenericPartitionDeviceDiskSysConfig `json:"start"`
+	Status       string                              `json:"create"`
+	Type         string                              `json:"type"`
+}
+
+type GenericPartitionDeviceDiskSysConfig struct {
+	SectorSize SectorGenericPartitionDeviceDiskSysConfig `json:"sector_size"`
+	Unit       string                                    `json:"unit"`
+	Value      int64                                     `json:"value"`
+}
+
+type SectorGenericPartitionDeviceDiskSysConfig struct {
+	Unit  string `json:"unit"`
+	Value int64  `json:"value"`
 }
 
 type ProfileSysConfig struct {
-	GfxDriver string `json:"gfx_driver"`
+	GfxDriver string                  `json:"gfx_driver"`
+	Profile   ProfileProfileSysConfig `json:"profile"`
+}
+
+type ProfileProfileSysConfig struct {
+	Main string `json:"main"`
 }
 
 func populateConfigJson() error {
